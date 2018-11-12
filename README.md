@@ -1,5 +1,5 @@
 
-<img src='figs/rookie_10.png'>
+<img src='figs/rookie_2.png'>
 ### CNNs in the Frequency Domain
 
 <p>&nbsp;
