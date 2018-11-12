@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
+import cv2
 
 def plot_both(x, y, title):
     t, freq = x
@@ -60,6 +61,7 @@ fourier = np.fft.fft(channel_1)
 w = np.linspace(0, rate, len(fourier))
 
 # First half is the real component, second half is imaginary
+square = 2**10 ## **10 = 1024
 fourier_to_plot = fourier[0:len(fourier)//2]
 w = w[0:len(fourier)//2]
 f_scale = len(fourier)/rate
@@ -68,12 +70,45 @@ w_range = (f_scale*f_range).astype(int)
 jump=t.size//400
 x_plot = [t[:index],w[w_range[0]:w_range[1]]]
 y_plot = [sig[:index],fourier_to_plot[w_range[0]:w_range[1]]]
+Y_np = abs(fourier_to_plot[w_range[0]:w_range[1]])
+Y_np = Y_np/Y_np.max()*square
+Y_np = np.asarray(Y_np)
+window_size = Y_np.size//square
+drop = Y_np.size%window_size
+Z = Y_np.reshape(Y_np.size,1)[:-drop]
+
+# Y_np_square = Y_np[:-drop].reshape(-1,window_size).mean(1)
+# Y_np_square = ((Y_np_square/Y_np_square.max())*square).astype(int)
+
+# General formula for taking the average of r rows for a 2D array a with c columns:
+def get_small_pic(a, r, c):
+    return a.transpose().reshape(-1,r).sum(1).reshape(c,-1).transpose()
+
+Zpic = get_small_pic(Z,window_size,1)
+Zpic = Zpic - Zpic.min()
+Zpic = (Zpic/Zpic.max())*square
+Zpic = Zpic.astype(int)
+x_np_square = np.linspace(f_range[0], f_range[1], square).astype(int)
+h = Zpic#Y_np_square
+pic = np.zeros((square,1))
+
+for x in Zpic.ravel():
+    each = np.hstack((np.zeros((square-x)), np.ones((x)))).reshape(square,1)
+    pic = np.hstack((pic,each))
+
+
+
+# zero = np.zeros((square - h))
+# Z = np.hstack((one,zero))
+# ZZ = np.hstack((np.ones((h)), np.zeros((square-h))))
+x_np_plot = [t[:index],x_np_square]
+y_np_plot = [sig[:index],Zpic.ravel()]
+
 title=[f'{sorted(fs)}','FFT']
-plot_both(x_plot, y_plot, title)
+plot_both(x_np_plot, y_np_plot, title)
 rookie_plot=f'../figs/rookie_{waves}.png'
-plt.savefig(rookie_plot)
-#  plt.show()
-square = 2**10 ## **10 = 1024
+# plt.savefig(rookie_plot)
+plt.show()
 sig_pic = sig[:index]
 sig_pic += abs(sig_pic.min())
 sig_pic = square*(sig_pic//(sig_pic.max()))
