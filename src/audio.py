@@ -61,7 +61,7 @@ fourier = np.fft.fft(channel_1)
 w = np.linspace(0, rate, len(fourier))
 
 # First half is the real component, second half is imaginary
-square = 2**10 ## **10 = 1024
+square = 2**7 ## **10 = 1024
 fourier_to_plot = fourier[0:len(fourier)//2]
 w = w[0:len(fourier)//2]
 f_scale = len(fourier)/rate
@@ -95,6 +95,7 @@ pic = np.zeros((square,1))
 for x in Zpic.ravel():
     each = np.hstack((np.zeros((square-x)), np.ones((x)))).reshape(square,1)
     pic = np.hstack((pic,each))
+pic = np.delete(pic,0,1)
 
 
 
