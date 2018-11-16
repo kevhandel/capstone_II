@@ -16,7 +16,7 @@ Similarly, sensory neurons in the skin which detect relative temperature fire at
 **For some reason, Nature has chosen to process certain inputs in frequency space.  Might this suggest an inherent efficiency for processing periodic signals in frequency space?**
 
 ### ...and some mathematical Background
-In the early 1800's, Jean-Baptiste Joseph Fourier published work on the transfer of heat in which he claimed that any function can be represented  as a summation of a series of weighted sinusoids.  This mathematical concept has become widely used in the natural sciences as well as engineering world.
+In the early 1800's, Jean-Baptiste Joseph Fourier published work on the transfer of heat in which he claimed that any function can be represented  as a summation of a series of weighted sinusoids.  This mathematical concept has become widely used in the natural sciences as well as the engineering world.
 
 As an example, a square wave can crafted by summing a very specific combination of sinusoids:
 <br>
@@ -74,7 +74,7 @@ We settled on 'adam' as the optimizer, since it resulted in the greatest accurac
 <p> The results of the best run settled at over 99% accuracy.  Clearly, we didn't test the model with a tough enough data set!
 <table><tr>
 <p>
-The increase the challenge, we shrunk the frequency range and added twice as much random noise to the sample.  In these larger images, we can see the effects of the noise as it visibly spreads across every frequency, and we see that readily-identifiable distinguishing patterns between sawtooth and square waves of equal frequency have become obscurred.
+The increase the challenge, we shrunk the frequency range and added twice as much random noise to the sample.  In these larger images, we can see the effects of the noise as it visibly spreads across every frequency, and we see that formerly readily-identifiable distinguishing patterns between sawtooth and square waves of equal frequency have become obscurred.
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_2195_9879_256.png'></td>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_2319_2718_256.png'>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_3445_6854_256.png'>
@@ -120,7 +120,7 @@ Below are the image samples sent to the model in their actual size:
 <td><img src='figs/readme/dirty_5k/square/square_4097_2118_64.png'></td>
 <td><img src='figs/readme/dirty_5k/square/square_4102_9135_64.png'></td>
 <td><img src='figs/readme/dirty_5k/square/square_4234_1087_64.png'></td></tr>
-</table>'
+</table>
 
 Final results of the initial phase of this study show that CNNs can categorize periodic waveforms when they are represented in frequency space.  The graphs below represent the results from the best run of the "extra dirty" dataset.  It took many more passes to achieve 95% accuracy.  Tuning of the hyperparameters also required more finesse, as the network might not barely reach 85% accuracy when even one parameter was slightly off the mark.
 <table><tr>
