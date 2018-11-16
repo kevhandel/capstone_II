@@ -107,7 +107,7 @@ Below are the image samples sent to the model in their actual size:
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_4067_6719_64.png'></td>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_4097_2118_64.png'></td>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_4102_9135_64.png'></td>
-<td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_4234_1087_64.png'></td></tr>
+<td><img src='figs/readme/try_sawtooth_64.gif'></td></tr>
 <tr colspan = 10>
 <td><img src='figs/readme/dirty_5k/square/square_2037_4414_64.png'></td>
 <td><img src='figs/readme/dirty_5k/square/square_2167_6525_64.png'></td>
@@ -119,7 +119,7 @@ Below are the image samples sent to the model in their actual size:
 <td><img src='figs/readme/dirty_5k/square/square_4067_6719_64.png'></td>
 <td><img src='figs/readme/dirty_5k/square/square_4097_2118_64.png'></td>
 <td><img src='figs/readme/dirty_5k/square/square_4102_9135_64.png'></td>
-<td><img src='figs/readme/dirty_5k/square/square_4234_1087_64.png'></td></tr>
+<td><img src='figs/readme/try_square_64.gif'></td></tr>
 </table>
 
 Final results of the initial phase of this study show that CNNs can categorize periodic waveforms when they are represented in frequency space.  The graphs below represent the results from the best run of the "extra dirty" dataset.  It took many more passes to achieve 95% accuracy.  Tuning of the hyperparameters also required more finesse, as the network might not even reach 85% accuracy when only one of these was slightly off the mark.  
