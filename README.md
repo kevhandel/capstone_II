@@ -1,7 +1,7 @@
 
+### <u>CNNs in the Frequency Space</u>
+<p>
 <img src='figs/readme/14_15.png'>
-
-### CNNs in the Frequency Space
 <p>
 
 ### Motivation...
