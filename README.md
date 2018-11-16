@@ -1,39 +1,79 @@
 
-<img src='figs/readme/rookie_2.png'>
-### CNNs in the Frequency Domain
-
+<img src='figs/readme/14_15.png'>
+### CNNs &nbsp;in the Frequency Domain
 <p>&nbsp;
 
-### Motivation and Background...
-Certain biological systems measure and calculate responses after transforming the environmental signals from time-dependent to frequency-dependent representations.  The auditory system in mammals, for example, includes a structure in which changes in air pressure cause a resonant response at different physical locations.  As such, the tiny hairs located at a given location will move in response to a specific sound frequency.  As the hair movements trigger a response to different nerves, the brain essentially receives auditory information in the frequency domain.  
+### Motivation...
+Some biological sensory systems measure  and transmit environmental data in frequency-dependent representations.  The auditory system in humans, for example, includes a structure in which changes in air pressure cause a resonant response at different physical locations.  Because of this, tiny hairs located at different locations move in response to specific sound frequencies, and thus trigger responses to specific nerves.  This means that the brain essentially receives its auditory information in the frequency domain.  
+<table><tr><td>
+<img src='figs/readme/earanalyze.jpg'>
+<br>&nbsp; --hyperphysics.phy-astr.gsu.edu
+</td></tr></table>
 
-Similarly, sensory neurons in the skin which detect relative temperature fire at a rate proportional to the temperature difference; high difference (hot or cold) from their previous state results in faster firings.
+Similarly, sensory neurons in the skin which detect relative temperature fire at a rate proportional to temperature difference.  Larger temperature differences (either hotter or colder) result in faster firings, again resulting in frequency information being sent to the brain.
 
-**For some reason, Nature has chosen to process certain inputs in frequency space.  And perhaps there is a built-in efficiency that we can exploit for more general signal processing.**
+**For some reason, Nature has chosen to process certain inputs in frequency space.  Might this suggest an inherent efficiency for processing periodic signals in frequency space?**
+
+### ...and some mathematical Background
+In the early 1800's, Jean-Baptiste Joseph Fourier published work on the transfer of heat in which he claimed that any function can be represented  as a summation of a series of weighted sinusoids.  This mathematical concept has become widely used in the natural sciences as well as engineering world.
+
+As an example, a square wave can crafted by summing a very specific combination of sinusoids:
+<br>
+<table border='none'><tr>
+<td><img src='figs/readme/Fourier_square.gif'></td>
+<td><img src='figs/readme/Fourier_3D.gif'></td>
+</tr><tr><td colspan=2>&nbsp;--wikimedia.org</td>
+</tr></table>
 
 
+As the graphs in each pane represent the same information, we can view the Fourier Transform as an operation that transforms a function of time (here, a square wave), to a function of frequency (delta functions of varying amplitudes.)
+
+The **<i>Fast Fourier Transform</i>** (or FFT), is a particularly efficient algorithm for computing a close-enough set of frequency/amplitude values.  Numpy has a built-in function call that we can use to easily obtain FFT transformations of data.
+
+Since data with periodicity is identifiable when represented in frequency space, we wondered: **might a CNN might more easily recognize patterns when the data is presented following its Fourier Transformation?**  After significant prodding by the higher-ups, we settled on the problem of categorical classification for square waves and sawtooth waves.
+### Making the Data...
+We made a collection of square waves and sawtooth waves, and added random noise to make them tougher for the network to identify:
 
 <table><tr>
+<td><img src='figs/readme/sawtooth.png'></td>
+<td><img src='figs/readme/square.png'></td>
+</tr><tr>
+<td><img src='figs/readme/saw_noise.png'></td>
+<td><img src='figs/readme/square_noise.png'></td>
+</tr></table>
+
+We next constructed numpy arrays that would serve as image data for the CNN (sawtooths above, squares below):
+<table><tr>
 <td><img src='figs/readme/sawtooth/256/sawtooth_11025_5706_256.png'></td>
-<td><img src='figs/readme/sawtooth/256/sawtooth_12385_5540_256.png'>
-<td><img src='figs/readme/sawtooth/256/sawtooth_12716_9973_256.png'>
-<td><img src='figs/readme/sawtooth/256/sawtooth_15391_4238_256.png'>
-<td><img src='figs/readme/sawtooth/256/sawtooth_18736_8911_256.png'></tr>
+<td><img src='figs/readme/sawtooth/256/sawtooth_12385_5540_256.png'></td>
+<td><img src='figs/readme/sawtooth/256/sawtooth_12716_9973_256.png'></td>
+<td><img src='figs/readme/sawtooth/256/sawtooth_15391_4238_256.png'></td>
+<td><img src='figs/readme/sawtooth/256/sawtooth_18736_8911_256.png'></td></tr>
 <tr>
 <td><center>11025 Hz</center></td>
 <td><center>12385 Hz</center></td>
 <td><center>12716 Hz</center></td>
 <td><center>15391 Hz</center></td>
-<td><center>18736 Hz</center></td></tr>
-<tr>
+<td><center>18736 Hz</center></td>
+</tr><tr>
 <td><img src='figs/readme/square/256/square_11025_5706_256.png'> </td>
 <td><img src='figs/readme/square/256/square_12385_5540_256.png'> </td>
 <td><img src='figs/readme/square/256/square_12716_9973_256.png'> </td>
 <td><img src='figs/readme/square/256/square_15391_4238_256.png'> </td>
 <td><img src='figs/readme/square/256/square_18736_8911_256.png'> </td>
 </tr></table>
-<p>&nbsp;
+
+### The CNN and training...
+
+We sent smaller versions of these images (64 x 64) into a CNN modeled after the cat - dog binary classifier that we used in class.  The final configuration consisted of 32 convolution layers using a 3x3 filter and RELU activation.  Pooling was set to 2x2.  A Dropout rate of 10% allowed the loss to continue decreasing with minimal oscillation for 25+ epochs.  Next, the Flattened layer interfaced with a Dense layer of 128, also with RELU activation. A final Dense layer was activated with SIGMOID.
+<p>
+We trained the network on 10,000 images and tested on 2,000.  Both collections contained equal samples of each category.  Also, we did include data augmentation the form of shear, zoom and horizontal flip.
+<p>
+We settled on 'adam' as the optimizer, since it resulted in the greatest accuracy as well as a continuously decreasing loss metric; the loss generally continued converging even after 25 epochs when the other hyperparameters approached optimal values.  The loss was calculated using binary crossentropy.   
+<p> The results of the best run settled at over 99% accuracy.  Clearly, we didn't test the model with a tough enough data set!
 <table><tr>
+<p>
+The increase the challenge, we shrunk the frequency range and added twice as much random noise to the sample.  In these larger images, we can see the effects of the noise as it visibly spreads across every frequency, and we see that readily-identifiable distinguishing patterns between sawtooth and square waves of equal frequency have become obscurred.
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_2195_9879_256.png'></td>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_2319_2718_256.png'>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_3445_6854_256.png'>
@@ -53,7 +93,7 @@ Similarly, sensory neurons in the skin which detect relative temperature fire at
 <td><img src='figs/readme/dirty_5k/square/square_4874_8253_256.png'> </td>
 </tr></table>
 <p>&nbsp;
-
+Below are the image samples sent to the model in their actual size:
 <table>
 <tr colspan = 10>
 <td><img src='figs/readme/dirty_5k/sawtooth/sawtooth_2037_4414_64.png'></td>
@@ -80,91 +120,24 @@ Similarly, sensory neurons in the skin which detect relative temperature fire at
 <td><img src='figs/readme/dirty_5k/square/square_4102_9135_64.png'></td>
 <td><img src='figs/readme/dirty_5k/square/square_4234_1087_64.png'></td></tr>
 </table>'
-### Investigation...
-Step 1 is EDA.
-No datasets, so generate sine waves and make them dirty.
-<src = 'clean sine wave'>   ==>  <src='dirty sine wave'>
-<src = 'clean sine waves'>  ==>  <src='dirty sine waves'>
 
-Sent these into Fast Fourier Transform function.
-fourier = np.fft.fft(wave)
-<src = 'ft of 1 sine'>  ==> <src = 'ft of higher f'>
-<src = 'ft of 1 dirty'> ==> <src = 'ft of many dirty fs'>
+Final results of the initial phase of this study show that CNNs can categorize periodic waveforms when they are represented in frequency space.  The graphs below represent the results from the best run of the "extra dirty" dataset.  It took many more passes to achieve 95% accuracy.  Tuning of the hyperparameters also required more finesse, as the network might not barely reach 85% accuracy when even one parameter was slightly off the mark.
+<table><tr>
+<td><img src='figs/readme/acc_ep.png'></td>
+<td><img src='figs/readme/loss_ep.png'></td>
+</tr></table>
 
-Looked hopeful that we can extract information if we analyze data in the frequency space and then perform some type of identification/categorization using a convolutional neural network.
+### Immediate Next Steps...
+==> Send the data as prepared in the original time domain and see how well a CNN can classify.
 
-Bossman kept asking for a target... what is the plan here?
+==> Generate other periodic functions and attempt multi-class classification in both the time and frequency domains.
 
-Scipy.signal can generate two other periodic waveforms out of the box:
-sawtooth <img src = 'sawtooth'>
-square <img src = 'square'>
-
-Just to be a little fair:  make them dirty
-<img src='dirty sawtooth'>
-<img src='dirty square'>
-
-Goal: Train a CNN to recognize and perform binary categorization of sawtooth and square waves that have been transformed to the frequency domain.  
-
-More explicitly, use a 2-D image representation of the waveform {what you see above}.  
-
-Task: create the square and sawtooth FFT data.  
-Pick a square image size (ie 64 x 64).
-Shrink down the FFT values array to *image size* entries by summing adjacent values.
-Standardize by normalizing and multiplying by *image size*.
-Turn this smaller array into horizontally stacked columns filled from the bottom with ones to height proportional to the value; pad remainder of array with zeros.
-Save each image.  
-Ultimately create 5000 samples of each type for training, and 1000 of each type for testing.
-
-The CNN:
-Started with a CNN modeled from the cat-dog classifier from class.  Used "flow_from_directory" to keep process standardized during the process of choosing image and sample sizes.
-
-Added ImageDataGenerator to augment the dataset.  
-Conv2D with 32 layers, RELU activation
-(3x3) & (4x4) filters, depending on dataset under test;
-MaxPooling2D pool_size = 2x2
-Dropout .1 - .25 for best performance (loss downward)
-Flatten
-Dense = 128 with RELU
-Dense final with SIGMOID
-Optimizer = adam; loss = binary_crossentropy
-
-Performance:
-Ran 30 epochs on 10k image train, 2k test.  Reached 99% accuracy, ~20 epochs; loss continued to slowly drop.
-Saw damped oscillatory pattern as accuracy continued to climb.
-
-def sine(f, t):
-    return np.sin(2*np.pi*f*t)
-
-def sawtooth(f, t):
-    return sg.sawtooth(2*np.pi*f*t)
-
-def square(f, t):
-    return sg.square(2*np.pi*f*t)
-
-==>
-*
+==> Expand the scope to study representations of data in two dimensions, such as images.
 <p>&nbsp;
 
-### Start the EDA...
-
-<p>&nbsp;
-
-### Graphing by the 1000's...
-<table>
-</table>
-
-<p>&nbsp;
-
-### Gathering Data...
-<p>&nbsp;
-
-
-### Results...
-<p>&nbsp;
-
-### Looking Ahead...
-
-<p>&nbsp;
-
-### Data Sources...
-Many Thanks to:
+### Many Thanks to...
+Frank, Kelly, Mike, Erin, Alan and all of the adjunct lecturers for their sharing of wisdom, insight, encouragement and laughter.
+<p>
+Thanks to y'all, the g80s cohort, for fielding a ton of rookie-level questions.
+<p>
+Extra thanks to those gurus who assembled Keras and thought up the Sequential model construction.
