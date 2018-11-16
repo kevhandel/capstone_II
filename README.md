@@ -1,7 +1,8 @@
 
 <img src='figs/readme/14_15.png'>
-### CNNs &nbsp;in the Frequency Domain
-<p>&nbsp;
+
+### CNNs in the Frequency Domain
+<p>
 
 ### Motivation...
 Some biological sensory systems measure  and transmit environmental data in frequency-dependent representations.  The auditory system in humans, for example, includes a structure in which changes in air pressure cause a resonant response at different physical locations.  Because of this, tiny hairs located at different locations move in response to specific sound frequencies, and thus trigger responses to specific nerves.  This means that the brain essentially receives its auditory information in the frequency domain.  
