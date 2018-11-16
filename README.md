@@ -133,7 +133,7 @@ Final results of the initial phase of this study show that CNNs can categorize p
 
 ==> Generate other periodic functions and attempt multi-class classification in both the time and frequency domains.
 
-==> Expand the scope to study representations of data in two dimensions, such as images.
+==> Expand the scope to study representations of data in two dimensions, such optical data from images and lenses.
 <p>&nbsp;
 
 ### Many Thanks to...
