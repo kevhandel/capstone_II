@@ -122,7 +122,7 @@ Below are the image samples sent to the model in their actual size:
 <td><img src='figs/readme/dirty_5k/square/square_4234_1087_64.png'></td></tr>
 </table>
 
-Final results of the initial phase of this study show that CNNs can categorize periodic waveforms when they are represented in frequency space.  The graphs below represent the results from the best run of the "extra dirty" dataset.  It took many more passes to achieve 95% accuracy.  Tuning of the hyperparameters also required more finesse, as the network might not barely reach 85% accuracy when even one parameter was slightly off the mark.
+Final results of the initial phase of this study show that CNNs can categorize periodic waveforms when they are represented in frequency space.  The graphs below represent the results from the best run of the "extra dirty" dataset.  It took many more passes to achieve 95% accuracy.  Tuning of the hyperparameters also required more finesse, as the network might not even reach 85% accuracy when only one of these was slightly off the mark.  
 <table><tr>
 <td><img src='figs/readme/acc_ep.png'></td>
 <td><img src='figs/readme/loss_ep.png'></td>
