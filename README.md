@@ -137,7 +137,7 @@ Final results of the initial phase of this study show that CNNs can categorize p
 <p>&nbsp;
 
 ### Many Thanks to...
-Frank, Kelly, Mike, Erin, Alan and all of the adjunct lecturers for their sharing of wisdom, insight, encouragement and laughter.
+Frank, Kelly, Mike, Erin, Alan and all of the adjunct lecturers for their sharing of wisdom, insight, encouragement and laughter.  And to Angela for the cover letter extension.
 <p>
 Thanks to y'all, the g80s cohort, for fielding a ton of rookie-level questions.
 <p>
